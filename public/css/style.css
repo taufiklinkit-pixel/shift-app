@@ -1,0 +1,313 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0BA6DF;
+  color: #1e293b;
+  padding: 16px;
+  min-height: 100vh;
+}
+
+/* Banner image (place your image at public/img/banner.jpg) */
+.banner {
+  width: 100%;
+  max-width: 1100px;
+  height: 220px;
+  margin: 0 auto 16px;
+  border-radius: 18px;
+  background-image: none;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make the main app view use full width so the grid can form 3 columns */
+#app.screen {
+  display: block;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+#app {
+  width: 100%;
+}
+
+.login-box {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-box h2 {
+  color: #1e3a8a;
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #0BA6DF;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.error {
+  color: #ef4444;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+header {
+  text-align: center;
+  padding: 12px 0 16px;
+}
+
+header h1 {
+  font-size: 2.0rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.user-info {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin-top: 12px;
+}
+
+#logout-btn {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.messages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 auto 20px;
+  width: 100%;
+  max-width: 1100px; /* center like a board */
+}
+
+.message-card {
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  border: 1px solid #e2e8f0;
+  height: 220px; /* fixed card height to align rows */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card layout */
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+}
+.avatar.placeholder {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: #cbd5e1;
+  color: #0f172a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1; /* push footer to bottom */
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.card-action {
+  background: transparent;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Footer label button replacing Copy */
+.btn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  cursor: default;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* Icon accent border per type */
+.message-card .icon {
+  margin-right: 8px;
+}
+
+/* Responsive columns */
+@media (max-width: 1200px) {
+  .messages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .messages {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 8px auto 24px;
+  width: 100%;
+  max-width: 1100px;
+}
+.pg-btn {
+  background: #0284c7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.pg-btn[disabled] {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+.pg-info { color: #0f172a; font-weight: 600; }
+
+.input-area {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  width: 100%;
+  max-width: 1100px; /* align with card grid width */
+  margin: 0 auto 24px; /* center and match side borders */
+}
+
+.input-area select,
+.input-area textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #bae6fd;
+  border-radius: 12px;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.input-area select {
+  width: auto;
+  min-width: 150px;
+}
+
+.input-area textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.input-area button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #0BA6DF 0%, #0284c7 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}

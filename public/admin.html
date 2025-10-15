@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - User Management</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-container { max-width: 900px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.10); }
+    .admin-header { display:flex; justify-content: space-between; align-items:center; margin-bottom: 16px; }
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+    .table th { background: #f8fafc; }
+    .row-actions { display:flex; gap:8px; }
+    .btn { background: #0284c7; color:#fff; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; }
+    .btn.secondary { background: transparent; color:#0284c7; border:1px solid #bae6fd; }
+    .form-row { display:flex; gap:8px; margin-bottom: 12px; }
+    .form-row input { padding:10px; border:1px solid #e2e8f0; border-radius:8px; }
+  </style>
+  <script defer src="js/admin.js"></script>
+  <script>
+    // Redirect to login if not admin (server enforces too)
+  </script>
+  </head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h2>User Management</h2>
+      <a class="btn secondary" href="/">Back</a>
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="new-username" placeholder="New username">
+      <input type="password" id="new-password" placeholder="Password">
+      <button class="btn" id="create-user">Create</button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="users-body"></tbody>
+    </table>
+  </div>
+</body>
+</html>
+
+

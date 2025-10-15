@@ -1,0 +1,27 @@
+﻿services:
+  app:
+    image: php:8.2-apache
+    ports:
+      - "8000:80"
+    volumes:
+      - ./public:/var/www/html
+      - ./src:/var/www/html/src
+      - session_data:/var/lib/php/sessions  # ← ADD THIS LINE
+    depends_on:
+      - db
+    restart: unless-stopped
+    command: bash -c "docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: shift_handover
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - db_:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    restart: unless-stopped
+
+volumes:
+  db_:
+  session_data:  # ← ADD THIS LINE

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Handover Board</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login-screen" class="screen">
+    <div class="login-box">
+      <input type="text" id="login-username" placeholder="Username" required>
+      <input type="password" id="login-password" placeholder="Password" required>
+      <button id="login-btn">Login</button>
+      <div id="login-error" class="error"></div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app" class="screen" style="display:none;">
+    <div class="banner"></div>
+    <header>
+      <div class="user-info">
+        Hello, <strong id="current-username"></strong>! 
+        <button id="logout-btn">Logout</button>
+        <a id="admin-link" href="/admin.html" style="display:none; margin-left:10px; text-decoration:none; background: rgba(255,255,255,0.2); padding:6px 12px; border-radius:8px; color:white;">Admin</a>
+        <a id="register-link" href="/register.html" style="margin-left:10px; text-decoration:none; background: rgba(255,255,255,0.2); padding:6px 12px; border-radius:8px; color:white;">Register</a>
+        <a id="profile-link" href="/profile.html" style="margin-left:10px; text-decoration:none; background: rgba(255,255,255,0.2); padding:6px 12px; border-radius:8px; color:white;">Profile</a>
+      </div>
+    </header>
+
+    <div class="messages" id="messages"></div>
+    <div class="pagination" id="pagination"></div>
+
+    <div class="input-area">
+      <select id="icon-select">
+        <option value="note">📝 Note</option>
+        <option value="warning">⚠️ Warning</option>
+        <option value="maintenance">🔧 Maintenance</option>
+        <option value="done">✅ Done</option>
+        <option value="info">ℹ️ Info</option>
+      </select>
+      <textarea id="message-input" placeholder="Type your shift note..."></textarea>
+      <button id="send-btn">Send Note</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/banner.js"></script>
+</body>
+</html>
