@@ -2,7 +2,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #0BA6DF;
+  background: #E6D8C3;
   color: #1e293b;
   padding: 16px;
   min-height: 100vh;
@@ -76,6 +76,24 @@ body {
   margin-top: 10px;
 }
 
+.login-links {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.login-links a {
+  color: #0f172a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
+
 .error {
   color: #ef4444;
   margin-top: 10px;
@@ -90,20 +108,20 @@ header {
 header h1 {
   font-size: 2.0rem;
   font-weight: 700;
-  color: white;
+  color: #1e293b;
   letter-spacing: -0.5px;
 }
 
 .user-info {
   font-size: 1.25rem;
   font-weight: 700;
-  color: white;
+  color: #1e293b;
   margin-top: 12px;
 }
 
 #logout-btn {
-  background: rgba(255,255,255,0.2);
-  color: white;
+  background: rgba(30,41,59,0.1);
+  color: #1e293b;
   border: none;
   padding: 6px 12px;
   border-radius: 8px;
@@ -130,6 +148,16 @@ header h1 {
   height: 220px; /* fixed card height to align rows */
   display: flex;
   flex-direction: column;
+}
+
+.message-card.mine {
+  border: 2px solid #0BA6DF;
+  box-shadow: 0 6px 18px rgba(11,166,223,0.18);
+}
+
+.message-card.mine-today {
+  border-color: #0284c7;
+  box-shadow: 0 8px 24px rgba(2,132,199,0.22);
 }
 
 /* Card layout */
@@ -194,7 +222,14 @@ header h1 {
 .card-footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   margin-top: 8px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .card-action {
@@ -226,6 +261,20 @@ header h1 {
   border-radius: 8px;
   padding: 6px 10px;
   cursor: pointer;
+}
+
+.btn-edit {
+  background: #0284c7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.btn-edit[disabled] {
+  background: #94a3b8;
+  cursor: not-allowed;
 }
 
 /* Icon accent border per type */
@@ -310,4 +359,16 @@ header h1 {
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+}
+
+.input-area button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.helper-text {
+  margin-top: 4px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: #475569;
 }

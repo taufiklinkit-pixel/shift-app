@@ -13,6 +13,10 @@
       <input type="text" id="login-username" placeholder="Username" required>
       <input type="password" id="login-password" placeholder="Password" required>
       <button id="login-btn">Login</button>
+      <div class="login-links">
+        <span>Need an account?</span>
+        <a href="register.html" id="login-register-link">Register</a>
+      </div>
       <div id="login-error" class="error"></div>
     </div>
   </div>
@@ -42,6 +46,7 @@
         <option value="info">ℹ️ Info</option>
       </select>
       <textarea id="message-input" placeholder="Type your shift note..."></textarea>
+      <div id="edit-info" class="helper-text"></div>
       <button id="send-btn">Send Note</button>
     </div>
   </div>

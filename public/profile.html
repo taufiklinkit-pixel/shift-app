@@ -12,10 +12,14 @@
     <h2>My Profile</h2>
     <input type="file" id="avatar-file" accept="image/*">
     <button id="upload-avatar">Upload Avatar</button>
-    <hr style="margin:16px 0; opacity:0.3;">
-    <input type="url" id="avatar-url" placeholder="Or set Avatar by URL">
-    <button id="save-profile">Save URL</button>
     <div id="profile-msg" class="error"></div>
+    <hr style="margin:16px 0; opacity:0.3;">
+    <h3>Change Password</h3>
+    <input type="password" id="current-password" placeholder="Current password">
+    <input type="password" id="new-password" placeholder="New password (min 8 chars)">
+    <input type="password" id="confirm-password" placeholder="Confirm new password">
+    <button id="change-password">Update Password</button>
+    <div id="password-msg" class="error"></div>
   </div>
 </body>
 </html>
