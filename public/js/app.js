@@ -27,6 +27,39 @@ let myMessage = null;
 let remainingEdits = MAX_EDITS;
 let isSubmitting = false;
 
+function cacheUser(username) {
+  try {
+    if (username) {
+      sessionStorage.setItem('shiftAppUser', username);
+    } else {
+      sessionStorage.removeItem('shiftAppUser');
+    }
+  } catch (error) {
+    console.warn('Session storage unavailable', error);
+  }
+}
+
+function showApp(username) {
+  currentUsername.textContent = username;
+  loginScreen.style.display = 'none';
+  appScreen.style.display = 'block';
+  const adminLink = document.getElementById('admin-link');
+  if (adminLink) {
+    adminLink.style.display = username === 'admin' ? 'inline-block' : 'none';
+  }
+  const registerLink = document.getElementById('register-link');
+  if (registerLink) {
+    registerLink.style.display = 'none';
+  }
+}
+
+function initializeForUser(username) {
+  showApp(username);
+  myMessage = null;
+  remainingEdits = MAX_EDITS;
+  resetComposeState();
+}
+
 // Format date: DD/Mon/YYYY hh:mm AM/PM
 function formatDateTime(dateStr) {
   const date = new Date(dateStr);
@@ -197,20 +230,8 @@ async function login() {
     }
 
     if (data && data.success) {
-      currentUsername.textContent = data.username;
-      loginScreen.style.display = 'none';
-      appScreen.style.display = 'block';
-      const adminLink = document.getElementById('admin-link');
-      if (adminLink) {
-        adminLink.style.display = data.username === 'admin' ? 'inline-block' : 'none';
-      }
-      const registerLink = document.getElementById('register-link');
-      if (registerLink) {
-        registerLink.style.display = 'none';
-      }
-      myMessage = null;
-      remainingEdits = MAX_EDITS;
-      resetComposeState();
+      initializeForUser(data.username);
+      cacheUser(data.username);
       await loadMessages();
     } else {
       loginError.textContent = data?.error || 'Login failed';
@@ -231,6 +252,7 @@ function logout(skipRequest = false) {
     myMessage = null;
     remainingEdits = MAX_EDITS;
     resetComposeState();
+    cacheUser(null);
   };
 
   if (skipRequest) {
@@ -429,5 +451,50 @@ messageInput.addEventListener('keypress', (e) => {
   }
 });
 
+async function checkExistingSession(shouldLoadMessages = true) {
+  try {
+    const res = await fetch('src/api/profile.php', { credentials: 'include' });
+    if (res.status === 401) {
+      cacheUser(null);
+      return;
+    }
+    if (!res.ok) {
+      return;
+    }
+    const data = await res.json();
+    if (!data?.username) {
+      return;
+    }
+
+    initializeForUser(data.username);
+    cacheUser(data.username);
+    if (shouldLoadMessages) {
+      await loadMessages();
+    }
+  } catch (error) {
+    console.error('Session bootstrap failed', error);
+  }
+}
+
+async function bootstrapApp() {
+  let cachedUser = null;
+  try {
+    cachedUser = sessionStorage.getItem('shiftAppUser');
+  } catch (error) {
+    cachedUser = null;
+  }
+
+  if (cachedUser) {
+    initializeForUser(cachedUser);
+    cacheUser(cachedUser);
+    await loadMessages();
+    checkExistingSession(false);
+  } else {
+    checkExistingSession(true);
+  }
+}
+
 // Auto-refresh
 setInterval(() => loadMessages(currentPage), 10000);
+
+bootstrapApp();

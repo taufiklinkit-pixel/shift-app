@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $stmt = $pdo->prepare('SELECT username, avatar_url FROM users WHERE username = ?');
+    $stmt = $pdo->prepare('SELECT username, email, avatar_url FROM users WHERE username = ?');
     $stmt->execute([$_SESSION['username']]);
     echo json_encode($stmt->fetch() ?: []);
     exit;
@@ -43,14 +43,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // JSON fallback: avatar_url direct set
+    // JSON fallback: update email and/or avatar_url
     $input = json_decode(file_get_contents('php://input'), true);
-    $avatarUrl = trim($input['avatar_url'] ?? '');
+    if (!is_array($input)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid payload']);
+        exit;
+    }
+
+    $fields = [];
+    $params = [];
+
+    if (array_key_exists('email', $input)) {
+        $email = trim((string)$input['email']);
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(422);
+            echo json_encode(['error' => 'Invalid email address']);
+            exit;
+        }
+        $fields[] = 'email = ?';
+        $params[] = $email;
+    }
+
+    if (array_key_exists('avatar_url', $input)) {
+        $avatarUrl = trim((string)$input['avatar_url']);
+        $fields[] = 'avatar_url = ?';
+        $params[] = $avatarUrl !== '' ? $avatarUrl : null;
+    }
+
+    if (!$fields) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Nothing to update']);
+        exit;
+    }
+
+    $params[] = $_SESSION['username'];
+
     try {
-        $stmt = $pdo->prepare('UPDATE users SET avatar_url = ? WHERE username = ?');
-        $stmt->execute([$avatarUrl ?: null, $_SESSION['username']]);
+        $stmt = $pdo->prepare('UPDATE users SET ' . implode(', ', $fields) . ' WHERE username = ?');
+        $stmt->execute($params);
         echo json_encode(['success' => true]);
     } catch (PDOException $e) {
+        if (($e->errorInfo[1] ?? null) === 1062) {
+            http_response_code(409);
+            echo json_encode(['error' => 'Email already in use']);
+            exit;
+        }
         http_response_code(500);
         echo json_encode(['error' => 'Failed to update profile']);
     }

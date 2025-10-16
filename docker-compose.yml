@@ -1,4 +1,4 @@
-﻿services:
+services:
   app:
     image: php:8.2-apache
     ports:
@@ -6,7 +6,8 @@
     volumes:
       - ./public:/var/www/html
       - ./src:/var/www/html/src
-      - session_data:/var/lib/php/sessions  # ← ADD THIS LINE
+      - ./scripts:/var/www/html/scripts
+      - session_data:/var/lib/php/sessions  # ? ADD THIS LINE
     depends_on:
       - db
     restart: unless-stopped
@@ -24,4 +25,4 @@
 
 volumes:
   db_:
-  session_data:  # ← ADD THIS LINE
+  session_data:  # ? ADD THIS LINE
