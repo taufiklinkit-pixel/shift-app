@@ -10,6 +10,15 @@ ini_set('session.use_strict_mode', '1');
 ini_set('session.gc_probability', '1');
 ini_set('session.gc_divisor', '1000');
 
+$sessionPath = __DIR__ . '/storage/sessions';
+if (!is_dir($sessionPath)) {
+    mkdir($sessionPath, 0777, true);
+}
+if (!is_writable($sessionPath)) {
+    chmod($sessionPath, 0777);
+}
+ini_set('session.save_path', $sessionPath);
+
 // Detect HTTPS behind proxies as well
 $isSecure = (
     (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||

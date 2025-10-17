@@ -7,14 +7,13 @@ services:
       - ./public:/var/www/html
       - ./src:/var/www/html/src
       - ./scripts:/var/www/html/scripts
-      - session_data:/var/lib/php/sessions  # ? ADD THIS LINE
     depends_on:
       - db
     restart: unless-stopped
     command: bash -c "docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql && apache2-foreground"
 
   db:
-    image: mysql:8.0
+    image: mysql:5.7
     environment:
       MYSQL_DATABASE: shift_handover
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -25,4 +24,3 @@ services:
 
 volumes:
   db_:
-  session_data:  # ? ADD THIS LINE
