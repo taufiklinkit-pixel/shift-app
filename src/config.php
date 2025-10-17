@@ -12,10 +12,7 @@ ini_set('session.gc_divisor', '1000');
 
 $sessionPath = __DIR__ . '/storage/sessions';
 if (!is_dir($sessionPath)) {
-    mkdir($sessionPath, 0777, true);
-}
-if (!is_writable($sessionPath)) {
-    chmod($sessionPath, 0777);
+    mkdir($sessionPath, 0775, true);
 }
 ini_set('session.save_path', $sessionPath);
 
