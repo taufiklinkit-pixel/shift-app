@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
     is_approved TINYINT(1) NOT NULL DEFAULT 0
 );
 
-INSERT INTO users (username, password_hash) VALUES 
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi')
-ON DUPLICATE KEY UPDATE username=username;
+INSERT INTO users (username, password_hash, is_approved) VALUES 
+('admin', '$2y$10$Y/4RhXLSCdkhPgufoIZgm.YkM3MmQfKzepDUmjwVRjx8wcwVXq1ku', 1)
+ON DUPLICATE KEY UPDATE 
+    password_hash = VALUES(password_hash),
+    is_approved = VALUES(is_approved);

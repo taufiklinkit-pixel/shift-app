@@ -39,6 +39,13 @@ try {
         $pdo->exec("CREATE UNIQUE INDEX users_email_unique ON users (email)");
     }
 
+    // Keep the seeded admin credential in sync with documented defaults
+    $adminHash = '$2y$10$Y/4RhXLSCdkhPgufoIZgm.YkM3MmQfKzepDUmjwVRjx8wcwVXq1ku';
+    $updateAdmin = $pdo->prepare(
+        "UPDATE users SET password_hash = ?, is_approved = 1 WHERE username = 'admin'"
+    );
+    $updateAdmin->execute([$adminHash]);
+
     $hasEditCount = false;
     $hasUpdatedAt = false;
     $checkMessages = $pdo->prepare(
