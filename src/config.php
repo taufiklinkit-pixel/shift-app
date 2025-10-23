@@ -40,7 +40,7 @@ if (PHP_SESSION_ACTIVE !== session_status()) {
 $host = 'db';
 $dbname = 'shift_handover';
 $username = 'root';
-$password = '';
+$password = getenv('MYSQL_PASSWORD') ?: '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

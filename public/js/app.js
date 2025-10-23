@@ -307,6 +307,7 @@ async function loadMessages(page = currentPage) {
       const card = document.createElement('div');
       const mineClasses = isMineToday ? ' mine mine-today' : (isMine ? ' mine' : '');
       card.className = `message-card card${mineClasses}`;
+      
       card.innerHTML = `
         <div class="card-header">
           <div class="card-title">
@@ -326,12 +327,21 @@ async function loadMessages(page = currentPage) {
         <div class="card-footer">
           <button class="btn-chip" title="Type">${iconMap[iconKey]} ${iconLabel}</button>
           <div class="card-actions">
+            <button class="btn-view" data-full-text="${safe.replace(/"/g, '&quot;')}">View</button>
             ${canEdit ? `<button class="btn-edit" data-edit="${msg.id}">Edit</button>` : ''}
             ${isAdmin ? `<button class="btn-danger" data-del="${msg.id}">Delete</button>` : ''}
           </div>
         </div>
       `;
       messagesDiv.appendChild(card);
+
+      const viewBtn = card.querySelector('.btn-view');
+      if (viewBtn) {
+        viewBtn.addEventListener('click', () => {
+          const fullText = viewBtn.getAttribute('data-full-text');
+          openFullTextMessage(fullText);
+        });
+      }
 
       if (isMineToday && !foundMyMessage) {
         const mineData = {
@@ -498,3 +508,37 @@ async function bootstrapApp() {
 setInterval(() => loadMessages(currentPage), 10000);
 
 bootstrapApp();
+
+function openFullTextMessage(fullText) {
+  const modal = document.getElementById('full-text-modal');
+  const modalText = document.getElementById('modal-text-content');
+  if (modal && modalText) {
+    modalText.innerHTML = fullText.replace(/\n/g, '<br>');
+    modal.classList.add('modal-visible');
+  }
+}
+
+function closeFullTextMessage() {
+  const modal = document.getElementById('full-text-modal');
+  if (modal) {
+    modal.classList.remove('modal-visible');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('full-text-modal');
+  const closeBtn = document.querySelector('.modal-close');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeFullTextMessage);
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeFullTextMessage();
+      }
+    });
+  }
+});
+

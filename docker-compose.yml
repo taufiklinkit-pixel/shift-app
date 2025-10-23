@@ -2,11 +2,13 @@ services:
   app:
     image: php:8.2-apache
     ports:
-      - "8000:80"
+      - "8001:80"
     volumes:
       - ./public:/var/www/html
       - ./src:/var/www/html/src
       - ./scripts:/var/www/html/scripts
+    environment:
+      - MYSQL_PASSWORD=password
     depends_on:
       - db
     restart: unless-stopped
@@ -16,10 +18,13 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_DATABASE: shift_handover
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: password
+      TZ: Asia/Jakarta
     volumes:
       - db_:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     restart: unless-stopped
 
 volumes:
